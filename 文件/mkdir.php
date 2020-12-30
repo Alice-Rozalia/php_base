@@ -23,3 +23,5 @@ readdir($folder);
 // 将字符串写入文件，会覆盖重写，换行是\r\n
 $str = "高森奈津美";
 file_put_contents('./test.txt', $str);
+
+readfile('./test.txt'); // 读取输出文件内容
