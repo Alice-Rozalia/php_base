@@ -131,20 +131,20 @@ class MySQLDB {
 }
 
 // 配置参数
-$param = array(
-    'user' => 'root',
-    'pwd' => '123456',
-    'dbname' => 'php_wish'
-);
+// $param = array(
+//     'user' => 'root',
+//     'pwd' => '123456',
+//     'dbname' => 'php_wish'
+// );
 
 // 获取单例
-$db = MySQLDB::getInstance($param);
+// $db = MySQLDB::getInstance($param);
 
 // 插入成功
 //if ($db->exec("insert into news values (null, '测试')"))
 //    echo 'id是：' . $db->getLastInsertId();
 
 // 查询
-$link = $db->fetchAll("select * from news");
-echo '<pre>';
-var_dump($link);
+// $link = $db->fetchAll("select * from news");
+// echo '<pre>';
+// var_dump($link);
