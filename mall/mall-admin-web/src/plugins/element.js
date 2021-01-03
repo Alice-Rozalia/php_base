@@ -16,9 +16,35 @@ import {
   Menu,
   Submenu,
   MenuItem,
-  Notification
+  Notification,
+  Breadcrumb,
+  BreadcrumbItem,
+  Card,
+  Row,
+  Col,
+  Table,
+  TableColumn,
+  Pagination,
+  Loading,
+  Tag,
+  Dialog,
+  Radio,
+  RadioGroup
 } from 'element-ui'
 
+Vue.use(Radio)
+Vue.use(RadioGroup)
+Vue.use(Dialog)
+Vue.use(Tag)
+Vue.use(Loading)
+Vue.use(Pagination)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Col)
+Vue.use(Row)
+Vue.use(Card)
+Vue.use(Breadcrumb)
+Vue.use(BreadcrumbItem)
 Vue.use(Submenu)
 Vue.use(MenuItem)
 Vue.use(Menu)

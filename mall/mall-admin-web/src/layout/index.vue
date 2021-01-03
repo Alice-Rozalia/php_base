@@ -28,6 +28,11 @@
 
       <!-- 主体区域 -->
       <el-main>
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>{{$route.meta.parent}}</el-breadcrumb-item>
+          <el-breadcrumb-item>{{$route.name}}</el-breadcrumb-item>
+        </el-breadcrumb>
         <router-view />
       </el-main>
     </el-container>
@@ -112,5 +117,9 @@
 
   .el-main {
     background: #eaedf1;
+  }
+
+  .el-breadcrumb {
+    margin-bottom: 15px;
   }
 </style>

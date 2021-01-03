@@ -9,8 +9,14 @@ use Illuminate\Validation\ValidationException;
 
 class RoleController extends BaseController {
 
-    public function index() {
-        $data = Role::paginate($this->pageSize);
+    public function index(Request $request) {
+        $where = function ($query) use ($request) {
+            if ($request->has('key') and $request->key != '') {
+                $search = "%" . $request->key . "%";
+                $query->where('name', 'like', $search);
+            }
+        };
+        $data = Role::where($where)->orderBy('id', 'asc')->withTrashed()->paginate($request->limit);
         return response()->json(Result::ok4($data));
     }
 
@@ -53,7 +59,16 @@ class RoleController extends BaseController {
      * @param $id
      */
     public function update(Request $request, $id) {
-        //
+        try {
+            $this->validate($request, [
+                'name' => 'required|unique:roles,name,' . $id . ',id'
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json(Result::error2("验证不通过！"));
+        }
+
+        Role::where('id', $id)->update($request->only(['name']));
+        return response()->json(Result::ok2('角色修改成功！'));
     }
 
     /**

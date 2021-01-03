@@ -25,8 +25,12 @@ const menu = [{
   icon: 'el-icon-bank-card',
   children: [{
     id: 201,
-    path: '/users',
-    name: '用户列表'
+    path: '/roles',
+    name: '角色列表'
+  }, {
+    id: 202,
+    path: '/rights',
+    name: '权限列表'
   }]
 }, {
   id: 3,
@@ -35,7 +39,7 @@ const menu = [{
   icon: 'el-icon-goods',
   children: [{
     id: 301,
-    path: '/users',
+    path: '/goods',
     name: '用户列表'
   }]
 }, {
@@ -45,7 +49,7 @@ const menu = [{
   icon: 'el-icon-data-line',
   children: [{
     id: 401,
-    path: '/users',
+    path: '/datas',
     name: '用户列表'
   }]
 }, {
@@ -55,7 +59,7 @@ const menu = [{
   icon: 'el-icon-tickets',
   children: [{
     id: 501,
-    path: '/users',
+    path: '/orders',
     name: '用户列表'
   }]
 }, {
@@ -65,7 +69,7 @@ const menu = [{
   icon: 'el-icon-truck',
   children: [{
     id: 601,
-    path: '/users',
+    path: '/has',
     name: '用户列表'
   }]
 }, {
@@ -75,7 +79,7 @@ const menu = [{
   icon: 'el-icon-coin',
   children: [{
     id: 701,
-    path: '/users',
+    path: '/log',
     name: '登录日志'
   }]
 }]

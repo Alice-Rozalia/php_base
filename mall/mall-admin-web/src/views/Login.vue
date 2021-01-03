@@ -71,18 +71,19 @@
     },
     methods: {
       handleLogin() {
-        this.$refs.loginForm.validate(async valid => {
+        this.$refs.loginForm.validate(valid => {
           if (!valid) return
-          const { data } = await loginApi(this.loginForm)
-          if (data.success) {
-            this.$store.dispatch('setUser', data.data)
-            this.$router.push('/')
-            this.$notify({
-              title: '成功',
-              message: data.message,
-              type: 'success'
-            })
-          }
+          loginApi(this.loginForm).then(res => {
+            if (res.data.success) {
+              this.$store.dispatch('setUser', res.data.data)
+              this.$router.push('/')
+              this.$notify({
+                title: '成功',
+                message: res.data.message,
+                type: 'success'
+              })
+            }
+          })
         })
       }
     }

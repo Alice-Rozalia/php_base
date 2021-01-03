@@ -114,6 +114,7 @@ return [
     'uploaded'             => ':attribute 上传失败。',
     'url'                  => ':attribute 格式不正确。',
     'uuid'                 => ':attribute 必须是有效的 UUID。',
+    'phone'                => ':attribute 号码不合法',
 
     /*
     |--------------------------------------------------------------------------
@@ -173,7 +174,8 @@ return [
         'time'                  => '时间',
         'available'             => '可用的',
         'size'                  => '大小',
-        'code'                  => '验证码'
+        'code'                  => '验证码',
+        'phone'                 => '手机号'
     ],
     'captcha' => '验证码错误'
 ];

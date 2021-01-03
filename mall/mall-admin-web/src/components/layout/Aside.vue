@@ -34,12 +34,13 @@
   export default {
     data() {
       return {
-        // 是否折叠菜单
-        isCollapse: false,
         // 被激活的链接地址
-        activePath: 'index',
+        activePath: '/index',
         menulist: menu,
       }
+    },
+    created() {
+      this.getActive()
     },
     methods: {
       // 保存链接的激活状态
@@ -51,7 +52,7 @@
       getActive() {
         this.activePath = window.sessionStorage.getItem('activePath')
         if (this.activePath === null) {
-          this.activePath = 'index'
+          this.activePath = '/index'
         }
       }
     }

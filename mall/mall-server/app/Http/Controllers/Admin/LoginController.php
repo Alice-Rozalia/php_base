@@ -17,7 +17,7 @@ class LoginController extends Controller {
                 'password' => 'required'
             ]);
         } catch (ValidationException $e) {
-            return response()->json(Result::error2("验证不通过！"));
+            return response()->json(Result::error2('验证不通过！'));
         }
 
         // 登录
@@ -26,7 +26,7 @@ class LoginController extends Controller {
             $user = auth()->user();
             return response()->json(Result::ok3("登录成功！", $user));
         } else {
-            return response()->json(Result::ok4("登录失败！"));
+            return response()->json(Result::error2("用户名或密码错误！"));
         }
     }
 
