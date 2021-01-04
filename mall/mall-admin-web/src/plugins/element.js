@@ -29,9 +29,13 @@ import {
   Tag,
   Dialog,
   Radio,
-  RadioGroup
+  RadioGroup,
+  Select,
+  Option
 } from 'element-ui'
 
+Vue.use(Option)
+Vue.use(Select)
 Vue.use(Radio)
 Vue.use(RadioGroup)
 Vue.use(Dialog)

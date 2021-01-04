@@ -60,7 +60,8 @@
 <script>
   import {
     fetchRolesApi,
-    addRoleApi
+    addRoleApi,
+    updateRoleApi
   } from '@/api/role'
   import Pagination from '@/components/Pagination.vue'
 
@@ -120,7 +121,12 @@
       },
       confirmEdit(row) {
         row.edit = false
-        console.log(row);
+        updateRoleApi(row).then(res => {
+          if (res.data.success) {
+            this.$message.success(res.data.message)
+            this.getRoleList()
+          }
+        })
       }
     }
   }

@@ -15,3 +15,11 @@ export const addRoleApi = (data => {
     data: data
   })
 })
+
+export const updateRoleApi = (data => {
+  return request({
+    url: `/admin/role/${data.id}`,
+    method: 'put',
+    data: data
+  })
+})

@@ -23,7 +23,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         // 修改用户
         Route::put('user/edit/{id}', 'UserController@update');
 
-        // 权限管理，资源路由
+        // 权限管理，分配权限
+        Route::get('role/node/{role}', 'RoleController@node');
+        // 权限管理，分配权限
+        Route::post('role/node/{role}', 'RoleController@nodeSave');
+        // 权限管理，角色路由
         Route::resource('role', 'RoleController');
+        // 权限管理，权限路由
+        Route::resource('node', 'NodeController');
     });
 });
