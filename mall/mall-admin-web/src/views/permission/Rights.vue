@@ -21,15 +21,21 @@
             {{row.html + ' ' + row.name}}
           </template>
         </el-table-column>
-        <el-table-column prop="path" label="请求路径" align="center">
+        <el-table-column label="请求路径" align="center">
           <template slot-scope="{row}">
             {{row.path === "" ? "根节点" : row.path}}
           </template>
         </el-table-column>
-        <el-table-column prop="is_menu" label="是否菜单" align="center">
+        <el-table-column label="是否菜单" align="center">
           <template slot-scope="{row}">
             <el-tag v-if="row.is_menu==='1'" size="small">是</el-tag>
             <el-tag v-else size="small" type="info">否</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="level" label="权限等级" align="center">
+          <template slot-scope="{row}">
+            <el-tag v-if="row.level===1" type="success">一级</el-tag>
+            <el-tag v-if="row.level===2" type="warning">二级</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="created_at" label="创建时间" align="center" width="150" />
@@ -123,6 +129,7 @@
           data
         } = await fetchNodesApi()
         if (data.success) {
+          console.log(data);
           this.roles = data.data
         }
       },

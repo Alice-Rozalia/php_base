@@ -18,8 +18,11 @@ class RoleController extends BaseController {
                 $query->where('name', 'like', $search);
             }
         };
-        $data = Role::where($where)->orderBy('id', 'asc')->withTrashed()->paginate($request->limit);
-        return response()->json(Result::ok4($data));
+        $roles = Role::where($where)->orderBy('id', 'asc')->withTrashed()->paginate($request->limit);
+        foreach ($roles as $item) {
+            $item['child'] = self::arr2tree($item->nodes->toArray());
+        }
+        return response()->json(Result::ok4($roles));
     }
 
     public function create() {
@@ -75,10 +78,12 @@ class RoleController extends BaseController {
     // 读取当前角色所拥有的权限
     public function node(Role $role) {
         // 读取所有的权限
-        $allNode = (new Node())->getAllList();
+        $data = (new Node)->getAllList();
+        $allNode = self::arr2tree($data);
         // 读取当前角色所拥有的权限
-        $nodes = $role->nodes()->pluck('name', 'id')->toArray();
+        $nodes = $role->nodes()->pluck('id')->toArray();
         return response()->json(Result::ok4(compact('allNode', 'nodes')));
+
     }
 
     // 分配权限

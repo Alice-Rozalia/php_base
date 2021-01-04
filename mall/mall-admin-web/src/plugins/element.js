@@ -31,9 +31,11 @@ import {
   Radio,
   RadioGroup,
   Select,
-  Option
+  Option,
+  Tree
 } from 'element-ui'
 
+Vue.use(Tree)
 Vue.use(Option)
 Vue.use(Select)
 Vue.use(Radio)

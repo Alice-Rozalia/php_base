@@ -19,7 +19,34 @@
 
       <!-- 角色列表 -->
       <el-table :data="roleList" stripe border highlight-current-row v-loading="listLoading">
-        <el-table-column type="expand" />
+        <el-table-column type="expand">
+          <template slot-scope="{row}">
+            <el-row :class="['bdbottom', i1 === 0 ? 'bdtop' : '', 'vcenter']" v-for="(item1,i1) in row.child"
+              :key="item1.name">
+              <!-- 渲染一级权限 -->
+              <el-col :span="5">
+                <el-tag>{{item1.name}}</el-tag>
+                <i class="el-icon-caret-right"></i>
+              </el-col>
+              <!-- 渲染二级和三级权限 -->
+              <el-col :span="19">
+                <!-- 渲染二级权限 -->
+                <el-row :class="[i2 === 0 ? '' : 'bdtop', 'vcenter']" v-for="(item2, i2) in item1.sub"
+                  :key="item2.name">
+                  <el-col :span="6">
+                    <el-tag type="success">{{item2.name}}</el-tag>
+                    <i class="el-icon-caret-right"></i>
+                  </el-col>
+                  <el-col :span="18">
+                    <el-tag type="warning" v-for="(item3, i3) in item2.sub" :key="item3.name">
+                      {{item3.name}}
+                    </el-tag>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </template>
+        </el-table-column>
         <el-table-column type="index" label="序号" width="60" align="center" />
         <el-table-column label="角色名称" align="center">
           <template slot-scope="{row}">
@@ -45,7 +72,7 @@
             <el-button icon="el-icon-delete" size="mini" type="danger">
               删除
             </el-button>
-            <el-button icon="el-icon-setting" size="mini" type="warning">分配角色
+            <el-button @click="showSetRightDialog(row.id)" icon="el-icon-setting" size="mini" type="warning">分配角色
             </el-button>
           </template>
         </el-table-column>
@@ -54,6 +81,17 @@
       <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit"
         @pagination="getRoleList" />
     </el-card>
+
+    <!-- 分配权限对话框 -->
+    <el-dialog title="分配权限" :visible.sync="setRightDialog" width="50%">
+      <!-- 树形控件 -->
+      <el-tree :data="rightsList" :props="treeProps" :default-checked-keys="defKeys" show-checkbox default-expand-all
+        node-key="id" />
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRightDialog = false">取 消</el-button>
+        <el-button type="primary" @click="setRightDialog = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -61,7 +99,8 @@
   import {
     fetchRolesApi,
     addRoleApi,
-    updateRoleApi
+    updateRoleApi,
+    fetchNodesByRoleIdApi
   } from '@/api/role'
   import Pagination from '@/components/Pagination.vue'
 
@@ -82,6 +121,14 @@
         addRoleForm: {
           name: ''
         },
+        setRightDialog: false,
+        rightsList: [],
+        // 树形控件的树形绑定对象
+        treeProps: {
+          label: 'name',
+          children: 'sub'
+        },
+        defKeys: []
       }
     },
     created() {
@@ -127,6 +174,15 @@
             this.getRoleList()
           }
         })
+      },
+      showSetRightDialog(id) {
+        fetchNodesByRoleIdApi(id).then(res => {
+          if (res.data.success) {
+            this.defKeys = res.data.data.nodes
+            this.rightsList = res.data.data.allNode
+          }
+        })
+        this.setRightDialog = true
       }
     }
   }
@@ -141,5 +197,22 @@
     position: absolute;
     right: 15px;
     top: 10px;
+  }
+
+  .el-tag {
+    margin: 7px;
+  }
+
+  .bdtop {
+    border-top: 1px solid #eee;
+  }
+
+  .bdbottom {
+    border-bottom: 1px solid #eee;
+  }
+
+  .vcenter {
+    display: flex;
+    align-items: center;
   }
 </style>

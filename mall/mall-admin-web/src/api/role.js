@@ -23,3 +23,11 @@ export const updateRoleApi = (data => {
     data: data
   })
 })
+
+// 根据角色id获取该角色拥有的权限
+export const fetchNodesByRoleIdApi = (id => {
+  return request({
+    url: `/admin/role/node/${id}`,
+    method: 'get'
+  })
+})
