@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export const fetchRolesApi = (data => {
   return request({
@@ -29,5 +30,19 @@ export const fetchNodesByRoleIdApi = (id => {
   return request({
     url: `/admin/role/node/${id}`,
     method: 'get'
+  })
+})
+
+// 分配权限
+export const modifyNodesByIdApi = ((ids, role) => {
+  return request({
+    url: `/admin/role/node/${role}`,
+    method: 'post',
+    params: {
+      ids: ids
+    },
+    paramsSerializer: params => {
+      return qs.stringify(params, { indices: true })
+    }
   })
 })

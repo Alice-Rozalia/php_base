@@ -4,7 +4,7 @@
     <!-- 侧边栏菜单区域 -->
     <el-menu background-color="#304156" text-color="#fff" active-text-color="#00a4ff" unique-opened
       :collapse="$store.state.isCollapse" :collapse-transition="false" router :default-active="activePath">
-      <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
+      <el-submenu :index="item.id + ''" v-for="item in menus" :key="item.id">
         <!-- 一级菜单的模板区域 -->
         <template slot="title">
           <!-- 图标 -->
@@ -14,7 +14,7 @@
         </template>
 
         <!-- 二级菜单 -->
-        <el-menu-item :index="subitem.path" v-for="subitem in item.children" :key="subitem.id"
+        <el-menu-item :index="subitem.path" v-for="subitem in item.sub" :key="subitem.id"
           @click="saveNavState(subitem.path)">
           <template slot="title">
             <!-- 图标 -->
@@ -37,6 +37,7 @@
         // 被激活的链接地址
         activePath: '/index',
         menulist: menu,
+        menus: this.$store.state.menu.length > 0 ? this.$store.state.menu : JSON.parse(window.sessionStorage.getItem('menu'))
       }
     },
     created() {

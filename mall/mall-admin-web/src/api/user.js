@@ -63,3 +63,12 @@ export const updateUserApi = (user => {
     data: user
   })
 })
+
+// 给用户分配角色
+export const allotRoleApi = (user => {
+  return request({
+    url: `/admin/user/allot/${user.id}`,
+    method: 'post',
+    data: user
+  })
+})

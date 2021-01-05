@@ -9,3 +9,7 @@ export const setToken = ({ commit }, data) => {
 export const setCollapse = ({ commit }, data) => {
   commit('setCollapse', data)
 }
+
+export const setMenu = ({ commit }, data) => {
+  commit('setMenu', data)
+}

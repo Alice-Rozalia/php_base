@@ -38,7 +38,7 @@
                     <i class="el-icon-caret-right"></i>
                   </el-col>
                   <el-col :span="18">
-                    <el-tag type="warning" v-for="(item3, i3) in item2.sub" :key="item3.name">
+                    <el-tag type="warning" v-for="item3 in item2.sub" :key="item3.name">
                       {{item3.name}}
                     </el-tag>
                   </el-col>
@@ -72,7 +72,7 @@
             <el-button icon="el-icon-delete" size="mini" type="danger">
               删除
             </el-button>
-            <el-button @click="showSetRightDialog(row.id)" icon="el-icon-setting" size="mini" type="warning">分配角色
+            <el-button @click="showSetRightDialog(row.id)" icon="el-icon-setting" size="mini" type="warning">分配权限
             </el-button>
           </template>
         </el-table-column>
@@ -85,11 +85,11 @@
     <!-- 分配权限对话框 -->
     <el-dialog title="分配权限" :visible.sync="setRightDialog" width="50%">
       <!-- 树形控件 -->
-      <el-tree :data="rightsList" :props="treeProps" :default-checked-keys="defKeys" show-checkbox default-expand-all
-        node-key="id" />
+      <el-tree ref="treeRef" :data="rightsList" :props="treeProps" :default-checked-keys="defKeys" show-checkbox
+        default-expand-all node-key="id" />
       <span slot="footer" class="dialog-footer">
         <el-button @click="setRightDialog = false">取 消</el-button>
-        <el-button type="primary" @click="setRightDialog = false">确 定</el-button>
+        <el-button type="primary" @click="allotRights">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -100,7 +100,8 @@
     fetchRolesApi,
     addRoleApi,
     updateRoleApi,
-    fetchNodesByRoleIdApi
+    fetchNodesByRoleIdApi,
+    modifyNodesByIdApi
   } from '@/api/role'
   import Pagination from '@/components/Pagination.vue'
 
@@ -128,7 +129,8 @@
           label: 'name',
           children: 'sub'
         },
-        defKeys: []
+        defKeys: [],
+        clickRole: 0
       }
     },
     created() {
@@ -183,6 +185,20 @@
           }
         })
         this.setRightDialog = true
+        this.clickRole = id
+      },
+      // 分配权限
+      allotRights() {
+        const keys = [
+          ...this.$refs.treeRef.getCheckedKeys(),
+          ...this.$refs.treeRef.getHalfCheckedKeys()
+        ]
+        modifyNodesByIdApi(keys, this.clickRole).then(res => {
+          if (res.data.success) {
+            this.$message.success(res.data.message)
+            this.setRightDialog = false
+          }
+        })
       }
     }
   }

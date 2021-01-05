@@ -10,7 +10,7 @@
           </el-input>
         </el-col>
         <el-col :span="8">
-          <el-button type="primary" size="small" @click="addDialogVisible = true">添加用户</el-button>
+          <el-button type="primary" size="small" @click="showAddUserDialog">添加用户</el-button>
           <el-button type="success" size="small">导出Excel</el-button>
           <el-button type="danger" size="small" @click="bulkDelete" :disabled="multipleSelection.length===0">批量删除
           </el-button>
@@ -26,6 +26,7 @@
         <el-table-column prop="phone" label="手机号" align="center" width="100" />
         <el-table-column prop="email" label="邮箱" align="center" />
         <el-table-column prop="gender" label="性别" width="60" align="center" />
+        <el-table-column prop="role.name" label="角色" width="80" align="center" />
         <el-table-column prop="last_ip" label="登录ip" align="center" />
         <el-table-column prop="created_at" label="创建时间" align="center" width="150" />
         <el-table-column label="状态" align="center" width="80">
@@ -34,17 +35,19 @@
             <el-tag type="danger" size="small" v-else>禁用</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" align="center" width="180">
           <template slot-scope="{row}">
-            <el-button size="mini" @click="showEditDialog(row)" type="primary">修改
-            </el-button>
+            <el-button size="mini" @click="showEditDialog(row)" icon="el-icon-edit" type="primary" />
             <!-- 删除按钮 -->
-            <el-button v-if="row.deleted_at === null && row.id !== user.id" size="mini"
-              @click="deleteUser(row)" type="danger">
-              删除
-            </el-button>
-            <el-button @click="restore(row.id)" size="mini" v-if="row.deleted_at !== null" type="warning">还原
-            </el-button>
+            <el-button v-if="row.deleted_at === null && row.id !== user.id" size="mini" @click="deleteUser(row)"
+              type="danger" icon="el-icon-delete" />
+            <el-tooltip effect="dark" content="还原用户" placement="top" :enterable="false">
+              <el-button @click="restore(row.id)" size="mini" v-if="row.deleted_at !== null" icon="el-icon-refresh"
+                type="info" />
+            </el-tooltip>
+            <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
+              <el-button @click="setRole(row)" size="mini" icon="el-icon-setting" type="warning" />
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -74,6 +77,12 @@
         <el-form-item prop="phone" label="手机号">
           <el-input size="small" v-model="addForm.phone" type="text" placeholder="手机号码" name="phone" tabindex="4"
             auto-complete="off" />
+        </el-form-item>
+
+        <el-form-item label="角色">
+          <el-select v-model="addForm.role_id" placeholder="请选择角色" size="small">
+            <el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item.id" />
+          </el-select>
         </el-form-item>
 
         <el-form-item prop="gender" label="性别">
@@ -129,6 +138,26 @@
         <el-button size="small" type="primary" @click="editUserInfo">确 定</el-button>
       </span>
     </el-dialog>
+
+    <!-- 分配角色对话框 -->
+    <el-dialog title="分配角色" @close="setRoleDialogClosed" :visible.sync="setRoleDialog" width="35%" class="set-role">
+      <div>
+        <el-tag effect="plain">当前的用户:</el-tag>{{userInfo.username}}
+      </div>
+      <div style="margin:7px 0">
+        <el-tag effect="plain" type="success">当前的角色:</el-tag>{{userInfo.role ? userInfo.role.name : ''}}
+      </div>
+      <div>
+        <el-tag effect="plain" type="warning">分配新角色:</el-tag>
+        <el-select v-model="selectedRoleId" placeholder="请选择角色" size="small">
+          <el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item.id" />
+        </el-select>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRoleDialog = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="saveRoleInfo" size="small">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -139,8 +168,12 @@
     deleteUserApi,
     restoreUserApi,
     deleteManyUserApi,
-    updateUserApi
+    updateUserApi,
+    allotRoleApi
   } from '@/api/user'
+  import {
+    fetchRolesApi
+  } from '@/api/role'
   import Pagination from '@/components/Pagination.vue'
   import addRules from '@/utils/addUserRules'
   export default {
@@ -164,7 +197,8 @@
           password: '',
           email: '',
           phone: '',
-          gender: ''
+          gender: '',
+          role_id: 2
         },
         addRules: addRules,
         // 复选框选中项
@@ -180,7 +214,11 @@
           gender: '',
           originalPassword: ''
         },
-        editRules: addRules
+        editRules: addRules,
+        setRoleDialog: false,
+        userInfo: {},
+        roles: [],
+        selectedRoleId: ''
       }
     },
     created() {
@@ -191,7 +229,7 @@
         this.listLoading = true
         fetchUsersApi(this.listQuery).then(res => {
           if (res.data.success) {
-            this.users = res.data.data.data
+            this.users = res.data.data.users
             this.total = res.data.data.total
             setTimeout(() => {
               this.listLoading = false
@@ -202,6 +240,17 @@
       // 添加用户对话框关闭事件
       addDialogClosed() {
         this.$refs.addForm.resetFields()
+      },
+      showAddUserDialog() {
+        fetchRolesApi({
+          page: 1,
+          limit: 100
+        }).then(res => {
+          if (res.data.success) {
+            this.roles = res.data.data.data
+            this.addDialogVisible = true
+          }
+        })
       },
       // 添加用户
       handleAddUser() {
@@ -293,11 +342,43 @@
             }
           })
         })
+      },
+      setRole(userInfo) {
+        this.userInfo = userInfo
+        // 获取角色列表
+        fetchRolesApi({
+          page: 1,
+          limit: 100
+        }).then(res => {
+          if (res.data.success) {
+            this.roles = res.data.data.data
+            this.setRoleDialog = true
+          }
+        })
+      },
+      saveRoleInfo() {
+        if (!this.selectedRoleId) return this.$message.error('请选择要分配的角色！')
+        this.userInfo.role_id = this.selectedRoleId
+        allotRoleApi(this.userInfo).then(res => {
+          if (res.data.success) {
+            this.$message.success(res.data.message)
+            this.setRoleDialog = false
+            this.selectedRoleId = ''
+          }
+        })
+      },
+      setRoleDialogClosed() {
+        this.userInfo = {}
+        this.selectedRoleId = ''
       }
     }
   }
 </script>
 
 <style lang="less" scoped>
-
+  .set-role {
+    .el-tag {
+      margin-right: 15px;
+    }
+  }
 </style>

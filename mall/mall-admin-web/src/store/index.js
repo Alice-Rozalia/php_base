@@ -10,7 +10,8 @@ const state = {
   token: '',
   user: {},
   isCollapse: false,
-  collapseIcon: 'el-icon-s-fold'
+  collapseIcon: 'el-icon-s-fold',
+  menu: []
 }
 
 export default new Vuex.Store({

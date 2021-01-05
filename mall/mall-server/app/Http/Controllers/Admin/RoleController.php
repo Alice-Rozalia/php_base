@@ -88,8 +88,8 @@ class RoleController extends BaseController {
 
     // 分配权限
     public function nodeSave(Request $request, Role $role) {
-        $role->nodes()->sync($request->get('node'));
-        return response()->json(Result::ok2('权限分配成功！'));
+        $role->nodes()->sync($request->get('ids'));
+        return response()->json(Result::ok2('权限分配完成！'));
     }
 
     /**

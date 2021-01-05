@@ -5,3 +5,5 @@ export const token = state => state.token
 export const isCollapse = state => state.isCollapse
 
 export const collapseIcon = state => state.collapseIcon
+
+export const menu = state => state.menu

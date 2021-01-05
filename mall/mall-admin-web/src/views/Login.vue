@@ -75,7 +75,8 @@
           if (!valid) return
           loginApi(this.loginForm).then(res => {
             if (res.data.success) {
-              this.$store.dispatch('setUser', res.data.data)
+              this.$store.dispatch('setUser', res.data.data.user)
+              this.$store.dispatch('setMenu', res.data.data.menu)
               this.$router.push('/')
               this.$notify({
                 title: '成功',

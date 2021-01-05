@@ -22,6 +22,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::delete('user/bulk_delete', 'UserController@bulkDelete');
         // 修改用户
         Route::put('user/edit/{id}', 'UserController@update');
+        // 给用户分配角色
+        Route::post('user/allot/{user}', 'UserController@allot');
 
         // 权限管理，分配权限
         Route::get('role/node/{role}', 'RoleController@node');

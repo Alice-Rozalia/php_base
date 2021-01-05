@@ -32,9 +32,11 @@ import {
   RadioGroup,
   Select,
   Option,
-  Tree
+  Tree,
+  Tooltip
 } from 'element-ui'
 
+Vue.use(Tooltip)
 Vue.use(Tree)
 Vue.use(Option)
 Vue.use(Select)

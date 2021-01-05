@@ -8,6 +8,11 @@ export const setToken = (state, token) => {
   sessionStorage.token = token
 }
 
+export const setMenu = (state, menu) => {
+  state.menu = menu
+  window.sessionStorage.setItem('menu', JSON.stringify(menu))
+}
+
 export const setCollapse = (state) => {
   if (state.isCollapse) {
     state.isCollapse = false

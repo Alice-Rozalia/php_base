@@ -34,4 +34,16 @@ class Base extends Model {
         }
         return $arr;
     }
+
+    // 树形菜单
+    public function subTree(array $data, int $pid = 0) {
+        $arr = [];
+        foreach ($data as $val) {
+            if ($pid == $val['pid']) {
+                $val['sub'] = $this->subTree($data, $val['id']);
+                $arr[] = $val;
+            }
+        }
+        return $arr;
+    }
 }

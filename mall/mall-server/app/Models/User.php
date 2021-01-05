@@ -19,4 +19,8 @@ class User extends AuthUser {
     protected $guarded = [];
     // 隐藏字段
     protected $hidden = ['password'];
+
+    public function role() {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
 }

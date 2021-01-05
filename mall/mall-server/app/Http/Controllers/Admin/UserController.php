@@ -24,7 +24,14 @@ class UserController extends BaseController {
         };
         // withTrashed --> 显示所以的用户，包括已经软删除的
         $data = User::where($where)->orderBy('id', 'asc')->withTrashed()->paginate($request->limit);
-        return response()->json(Result::ok4($data));
+        $userList = [];
+        foreach ($data as $item) {
+            $item->toArray()['role'] = $item->role->name;
+            array_push($userList, $item->toArray());
+        }
+        $res['total'] = $data->toArray()['total'];
+        $res['users'] = $userList;
+        return response()->json(Result::ok4($res));
     }
 
     /**
@@ -128,5 +135,17 @@ class UserController extends BaseController {
         } else {
             return response()->json(Result::error2('原密码错误！'));
         }
+    }
+
+    // 分配角色
+    public function allot(Request $request, User $user) {
+        $post = $this->validate($request, [
+            'role_id' => 'required'
+        ], [
+            'role_id.required' => '角色id不能为空！'
+        ]);
+
+        $user->update($post);
+        return response()->json(Result::ok2('角色修改成功！'));
     }
 }

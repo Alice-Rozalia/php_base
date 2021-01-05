@@ -64,6 +64,11 @@
             auto-complete="off" />
         </el-form-item>
 
+        <el-form-item label="图标">
+          <el-input size="small" v-model="addForm.icon" type="text" placeholder="根菜单的图标" name="icon" tabindex="3"
+            auto-complete="off" />
+        </el-form-item>
+
         <el-form-item prop="pid" label="是否顶级">
           <el-select v-model="addForm.pid" placeholder="不选则是根节点" size="small">
             <el-option v-for="item in rootNode" :key="item.id" :label="item.name" :value="item.id" />
@@ -102,7 +107,8 @@
           path: '',
           pid: null,
           // 是否是菜单，1是，0不是
-          is_menu: '1'
+          is_menu: '1',
+          icon: ''
         },
         addRules: {
           name: [{
