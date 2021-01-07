@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Node;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -64,7 +65,22 @@ class RoleController extends BaseController {
 
     // 删除操作
     public function destroy(int $id) {
-        Role::find($id)->delete();
+        Role::find($id)->forceDelete();
         return ['status' => 200, 'msg' => '删除成功！'];
+    }
+
+    // 给角色分配权限
+    public function node(Role $role) {
+        // 读取所有的权限
+        $allNode = (new Node())->getAllList();
+        // 获取当前角色所拥有的角色
+        $nodes = $role->nodes()->pluck('id')->toArray();
+        return view('admin.role.node', compact('role', 'allNode', 'nodes'));
+    }
+
+    // 分配角色处理
+    public function nodeSave(Request $request, Role $role) {
+        $role->nodes()->sync($request->get('node'));
+        return redirect(route('admin.role.node', $role))->with('success', '权限分配成功！');
     }
 }

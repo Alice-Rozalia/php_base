@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>后台管理系统</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="/admin/static/css/font.css">
     <link rel="stylesheet" href="/admin/static/css/weadmin.css">
     <script type="text/javascript" src="https://cdn.staticfile.org/layui/2.5.7/layui.min.js" charset="utf-8"></script>
@@ -47,54 +48,25 @@
 <div class="left-nav">
     <div id="side-nav">
         <ul id="nav">
-            <li>
-                <a href="javascript:;">
-                    <i class="iconfont">&#xe726;</i>
-                    <cite>用户管理</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a _href="{{ route('admin.user.index') }}">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>用户列表</cite>
-                        </a>
-                    </li>
-                    <li>
-                        <a _href="{{ route('admin.role.index') }}">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>角色列表</cite>
-                        </a>
-                    </li>
-                    <li>
-                        <a _href="./pages/admin/rule.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>权限管理</cite>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="iconfont">&#xe705;</i>
-                    <cite>文章管理</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a _href="./pages/article/list.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>文章列表</cite>
-                        </a>
-                    </li>
-                    <li>
-                        <a _href="./pages/article/category.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>分类管理</cite>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            @foreach($menu as $item)
+                <li>
+                    <a href="javascript:;">
+                        <i class="layui-icon {{ $item['icon'] }}"></i>
+                        <cite>{{ $item['name'] }}</cite>
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+                        @foreach($item['sub'] as $child)
+                            <li>
+                                <a _href="{{ route($child['route_name']) }}">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>{{ $child['name'] }}</cite>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
+            @endforeach
         </ul>
     </div>
 </div>
@@ -123,7 +95,7 @@
 <script type="text/javascript">
     layui.config({
         base: '/admin/static/js/'
-        ,version: '101100'
+        , version: '101100'
     }).use('admin');
 </script>
 </body>

@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Models\Traits\Btn;
+
 class Base extends Model {
 
     // 软删除
-    use SoftDeletes;
+    use SoftDeletes, Btn;
     protected $dates = ['deleted_at'];
 
     // 设置添加时的黑名单

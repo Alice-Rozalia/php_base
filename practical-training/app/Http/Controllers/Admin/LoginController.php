@@ -26,7 +26,21 @@ class LoginController extends Controller {
 
         $bool = auth()->attempt($post);
         if ($bool) {
-            return redirect(route('admin.index'));
+            if (config('rbac.super') != $post['username']) {
+                // 获取用户信息
+                $userModel = auth()->user();
+                // 获取用户角色
+                $roleModel = $userModel->role;
+                // 获取用户权限
+                $nodeArr = $roleModel->nodes()->pluck('route_name', 'id')->toArray();
+                session(['admin.auth' => $nodeArr]);
+                return redirect(route('admin.index'));
+            } elseif (auth()->user()->role_id == 1) {
+                return redirect(route('home.index'));
+            } else {
+                session(['admin.auth' => true]);
+                return redirect(route('admin.index'));
+            }
         }
 
         return redirect(route('admin.login'))->withErrors(['error' => '用户名或密码错误！']);

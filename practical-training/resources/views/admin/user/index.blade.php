@@ -27,7 +27,8 @@
         <form class="layui-form layui-col-md12 we-search">
             用户搜索：
             <div class="layui-inline">
-                <input type="text" name="key" placeholder="请输入用户名" value="{{ $key }}" autocomplete="off" class="layui-input"/>
+                <input type="text" name="key" placeholder="请输入用户名" value="{{ $key }}" autocomplete="off"
+                       class="layui-input"/>
             </div>
             <button class="layui-btn" lay-submit="" lay-filter="sreach">
                 <i class="layui-icon layui-icon-search"></i>
@@ -35,10 +36,10 @@
         </form>
     </div>
     <div class="weadmin-block">
-        <button class="layui-btn layui-btn-danger" onclick="deleteAll()">
+        <button class="layui-btn layui-btn-danger" style="background-color: #f56c6c" onclick="deleteAll()">
             <i class="layui-icon layui-icon-delete"></i>批量删除
         </button>
-        <a class="layui-btn" href="{{ route('admin.user.create') }}">
+        <a class="layui-btn" href="{{ route('admin.user.create') }}" style="background-color: #409eff">
             <i class="layui-icon layui-icon-add-circle-fine"></i>添加
         </a>
         <span class="fr" style="line-height:40px">共有数据：{{$data->toArray()['total']}} 条</span>
@@ -53,6 +54,7 @@
             </th>
             <th width="30px;">ID</th>
             <th>用户名</th>
+            <th>角色</th>
             <th width="30px;">性别</th>
             <th>手机</th>
             <th>邮箱</th>
@@ -76,22 +78,22 @@
                 </td>
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->username }}</td>
+                <td>{{ $item->role->name }}</td>
                 <td>{{ $item->gender }}</td>
                 <td>{{ $item->phone }}</td>
                 <td>{{ $item->email }}</td>
                 <td>{{ $item->created_at }}</td>
                 <td class="td-status">
-                    <span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
+                    <span class="layui-btn layui-btn-normal layui-btn-xs" style="background-color: #21ba45">已启用</span>
                 </td>
                 <td class="td-manage">
-                    <a href="{{ route('admin.user.edit', $item) }}" class="layui-btn layui-btn-xs">编辑</a>
+                    {!! $item->allotBtn('admin.user.role') !!}
+                    {!! $item->editBtn('admin.user.edit') !!}
                     @if(auth()->id() != $item->id)
                         @if($item->deleted_at != null)
-                            <a href="{{ route('admin.user.restore', ['id'=>$item->id]) }}"
-                               class="layui-btn layui-btn-warm layui-btn-xs">还原</a>
+                            {!! $item->restoreBtn('admin.user.restore') !!}
                         @else
-                            <a href="{{ route('admin.user.delete', ['id'=>$item->id]) }}"
-                               class="layui-btn layui-btn-danger layui-btn-xs deleteBtn">删除</a>
+                            {!! $item->deleteBtn('admin.user.delete') !!}
                         @endif
                     @endif
                 </td>

@@ -13,6 +13,7 @@ $factory->define(User::class, function (Faker $faker) {
         'email' => $faker->email,
         'phone' => $faker->phoneNumber,
         'avatar' => 'https://xd-video-pc-img.oss-cn-beijing.aliyuncs.com/xdclass_pro/default/head_img/11.jpeg',
-        'gender' => ['男', '女'][rand(0, 1)]
+        'gender' => ['男', '女'][rand(0, 1)],
+        'role_id' => 1
     ];
 });

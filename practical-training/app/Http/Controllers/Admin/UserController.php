@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Hash;
@@ -100,5 +101,22 @@ class UserController extends BaseController {
         } else {
             return redirect(route('admin.user.edit', $user))->withErrors(['error' => '原密码不正确！']);
         }
+    }
+
+    // 分配角色页面
+    public function role(User $user) {
+        // 获取所有的角色
+        $allRole = Role::all();
+        return view('admin.user.role', compact('user', 'allRole'));
+    }
+
+    // 分配角色处理
+    public function allot(Request $request, User $user) {
+        $post = $this->validate($request, [
+            'role_id' => 'required'
+        ], ['role_id.required' => '必须选择角色！']);
+
+        $user->update($post);
+        return redirect(route('admin.user.index'))->with(['success' => '角色分配成功，重新登录后生效！']);
     }
 }

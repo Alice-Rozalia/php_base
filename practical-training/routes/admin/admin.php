@@ -34,7 +34,14 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::get('user/edit/{id}', 'UserController@edit')->name('user.edit');
         // 修改用户处理
         Route::put('user/edit/{id}', 'UserController@update')->name('user.edit');
+        // 用户分配角色页
+        Route::get('user/role/{user}', 'UserController@role')->name('user.role');
+        // 用户分配角色处理
+        Route::post('user/role/{user}', 'UserController@allot')->name('user.allot');
 
+        // 角色管理，分配权限
+        Route::get('role/node/{role}', 'RoleController@node')->name('role.node');
+        Route::post('role/node/{role}', 'RoleController@nodeSave')->name('role.node');
         // 权限管理，角色
         Route::resource('role', 'RoleController');
         // 权限管理，权限（节点）
