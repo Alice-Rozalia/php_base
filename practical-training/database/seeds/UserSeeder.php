@@ -12,6 +12,6 @@ class UserSeeder extends Seeder {
         // 添加模拟数据
         factory(User::class, 200)->create();
         // 规定id=1的用户的用户名为admin
-        User::where('id', 1)->update(['username' => '白鸟亦悲否']);
+        User::where('id', 1)->update(['username' => 'admin']);
     }
 }

@@ -61,7 +61,8 @@
             <ul>
                 <li>
                     <form>
-                        <input style="color: #fff;" type="text" class="top_search" name="key" value="{{ $key }}" autocomplete="off"
+                        <input style="color: #fff;" type="text" class="top_search" name="key" value="{{ $key }}"
+                               autocomplete="off"
                                placeholder="输入文章标题，回车搜索"
                                id="search">
                         <button style="display: none"></button>
@@ -71,9 +72,20 @@
                     <a href="javascript:;"><i class="icomoon_i"></i>手机版</a>
                 </li>
                 <li>
-                    <div class="isLogin"><i class="icomoon_i"></i><i class="nickName"></i></div>
-                    <div class="isnotLogin"><a href="{{ route('admin.login') }}">登录</a> | <a
-                                href="javaScript:;">注册</a></div>
+                    @if(auth()->user())
+                        <div class="isLogin">
+                            <i class="icomoon_i"></i>
+                            <i class="nickName">
+                                {{ auth()->user()->username }}
+                                <a style="padding-left: 15px;" href="{{ route('admin.logout') }}">退出</a>
+                            </i>
+                        </div>
+                    @else
+                        <div class="isnotLogin">
+                            <a href="{{ route('admin.login') }}">登录</a> | <a
+                                    href="javaScript:;">注册</a>
+                        </div>
+                    @endif
                 </li>
             </ul>
         </div>
@@ -135,7 +147,7 @@
                     <a href="javascript:;">
                         <div class="board">分类</div>
                     </a>
-                    <div class="auth">{{ $item->created_at }}</div>
+                    <div class="auth">{{ $item->user->username }} | {{ $item->created_at }}</div>
                 </div>
             </div>
         </div>

@@ -34,6 +34,7 @@ class ArticleController extends BaseController {
         }
         $post = $request->except('_token');
         $post['pic'] = $pic;
+        $post['user_id'] = auth()->user()->id;
         Article::create($post);
         return redirect(route('admin.article.index'));
     }

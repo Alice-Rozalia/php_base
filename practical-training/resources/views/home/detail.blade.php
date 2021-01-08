@@ -21,8 +21,20 @@
         <div class="item">
             <ul>
                 <li>
-                    <div class="isLogin"><i class="icomoon_i"></i><i class="nickName"></i></div>
-                    <div class="isnotLogin"><a href="{{ route('admin.login') }}">登录</a> | <a href="javaScript:;">注册</a></div>
+                    @if(auth()->user())
+                        <div class="isLogin">
+                            <i class="icomoon_i"></i>
+                            <i class="nickName">
+                                {{ auth()->user()->username }}
+                                <a style="padding-left: 15px;" href="{{ route('admin.logout') }}">退出</a>
+                            </i>
+                        </div>
+                    @else
+                        <div class="isnotLogin">
+                            <a href="{{ route('admin.login') }}">登录</a> | <a
+                                    href="javaScript:;">注册</a>
+                        </div>
+                    @endif
                 </li>
             </ul>
         </div>
@@ -35,11 +47,11 @@
         <h2>{{ $article->title }}</h2>
     </div>
     <div class="author_info">
-        <span>作者</span> |
+        <span>{{ $article->user->username }}</span> |
         <span>{{ $article->created_at }}</span>
     </div>
     <div class="text_con">
-        {{ $article->content }}
+        {!! $article->content !!}
     </div>
 </div>
 

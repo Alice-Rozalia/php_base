@@ -24,4 +24,15 @@ class User extends AuthUser {
     public function role() {
         return $this->belongsTo(Role::class, 'role_id');
     }
+
+    public function userStatusCount() {
+        // 未被删除的用户数量
+        $canUseUserTotal = self::count();
+        // 所有的用户数量
+        $userTotal = self::withTrashed()->count();
+        return [
+            'total' => $userTotal,
+            'useTotal' => $canUseUserTotal
+        ];
+    }
 }

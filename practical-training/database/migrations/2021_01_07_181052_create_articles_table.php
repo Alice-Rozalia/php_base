@@ -14,6 +14,7 @@ class CreateArticlesTable extends Migration {
             $table->string('summary', 300)->default('')->comment('文章摘要');
             $table->string('pic', 150)->default('')->comment('文章封面');
             $table->text('content')->comment('文章内容');
+            $table->unsignedInteger('user_id')->default(1)->comment('用户id');
             $table->timestamps();
             $table->softDeletes();
         });

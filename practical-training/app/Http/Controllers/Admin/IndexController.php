@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Article;
 use App\Models\Node;
+use App\Models\User;
 
 class IndexController extends Controller {
     // 显示后台首页
@@ -17,6 +19,8 @@ class IndexController extends Controller {
 
     // 后台欢迎页面
     public function welcome() {
-        return view('admin.index.welcome');
+        $article = (new Article())->articleStatusCount();
+        $user = (new User())->userStatusCount();
+        return view('admin.index.welcome', compact('article', 'user'));
     }
 }
