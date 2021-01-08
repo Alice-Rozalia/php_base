@@ -7,7 +7,7 @@ return [
     | Console Commands
     |--------------------------------------------------------------------------
     |
-    | This option allows you to add additional Artisan commands that should
+    | This option allows you to add additional Article commands that should
     | be available within the Tinker environment. Once the command is in
     | this array you may execute the command in Tinker using its name.
     |

@@ -1,0 +1,182 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+button,
+input {
+    font-family: 'Microsoft YaHei', 'Heiti SC', tahoma, arial, 'Hiragino Sans GB', \\5B8B\4F53, sans-serif;
+    outline: none;
+}
+
+body {
+    background-color: #fff;
+    font: 12px/1.5 'Microsoft YaHei', 'Heiti SC', tahoma, arial, 'Hiragino Sans GB', \\5B8B\4F53, sans-serif;
+    color: #666;
+}
+
+em,
+i {
+    font-style: normal;
+}
+
+img {
+    border: 0;
+    vertical-align: middle;
+}
+
+@font-face {
+    font-family: 'icomoon';
+    src: url('../fonts/icomoon.eot?4xt1t7');
+    src: url('../fonts/icomoon.eot?4xt1t7#iefix') format('embedded-opentype'), url('../fonts/icomoon.ttf?4xt1t7') format('truetype'), url('../fonts/icomoon.woff?4xt1t7') format('woff'), url('../fonts/icomoon.svg?4xt1t7#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+.clearfix:after {
+    visibility: hidden;
+    clear: both;
+    display: block;
+    content: ".";
+    height: 0;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.icomoon_i {
+    font-family: 'icomoon';
+}
+
+footer {
+    width: 100%;
+    background-color: #fff;
+}
+
+.copyright {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.copyright img {
+    float: left;
+}
+
+.copyright p {
+    float: right;
+    margin: 50px;
+}
+
+
+/*顶部固定导航*/
+
+header {
+    width: 100%;
+    height: 40px;
+    background-image: linear-gradient(-90deg, #007aff 0%, #3a98ff 100%), linear-gradient(#333, #333);
+    color: #fff;
+    font-size: 14px;
+    line-height: 40px;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+}
+
+header a {
+    color: #fff;
+}
+
+header .top_main {
+    width: 1000px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+}
+
+header .item ul {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+}
+
+header .item ul li {
+    margin-right: 25px;
+}
+
+header .item ul li i {
+    margin-right: 9px;
+}
+
+#search {
+    width: 420px;
+    height: 26px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    padding: 0 0 0 8px;
+    border: none;
+    font-size: 12px;
+}
+
+#search::-webkit-input-placeholder {
+    color: #fff;
+}
+
+#search::-moz-placeholder {
+    color: #fff;
+}
+
+#searcht:-ms-input-placeholder {
+    color: #fff;
+}
+
+.search_icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+#search_list {
+    display: none;
+    position: absolute;
+    width: 400px;
+    background-color: #fff;
+    margin-left: 0;
+    color: #333;
+    flex-direction: column;
+}
+
+#search_list li {
+    padding-left: 12px;
+}
+
+#search_list li a {
+    display: block;
+    color: #333;
+    cursor: pointer;
+}
+
+#search_list li a:hover {
+    color: #00a4ff;
+}
+
+.item ul li:first-child {
+    position: relative;
+}
+
+.isLogin {
+    display: none;
+}

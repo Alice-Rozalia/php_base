@@ -1,5 +1,5 @@
 <?php
 
-Route::get('/', function () {
-    return view('home.index');
-})->name('home.index');
+Route::get('/', 'Home\IndexController@index')->name('home.index');
+
+Route::get('/detail/{article}', 'Home\IndexController@detail')->name('home.detail');

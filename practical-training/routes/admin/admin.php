@@ -45,6 +45,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         // 权限管理，角色
         Route::resource('role', 'RoleController');
         // 权限管理，权限（节点）
-        Route::resource('node','NodeController');
+        Route::resource('node', 'NodeController');
+
+        // 还原文章
+        Route::get('article/restore/{id}', 'ArticleController@restore')->name('article.restore');
+        // 文章管理
+        Route::resource('article', 'ArticleController');
     });
 });

@@ -1,0 +1,47 @@
+body {
+    background-color: #f3f3f3;
+}
+
+.article_main {
+    width: 1000px;
+    margin: 50px auto 20px;
+    background-color: #fff;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.article_title {
+    margin-top: 18px;
+}
+
+.article_title h2 {
+    display: inline-block;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    background-color: #00a4ff;
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 6px;
+}
+
+.author_info {
+    text-align: center;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.author_info span:hover {
+    color: #00a4ff;
+}
+
+.text_con {
+    text-indent: 2em;
+    font-size: 16px;
+    padding: 5px 24px;
+    margin-top: 24px;
+}
+
+.text_con p {
+    line-height: 28px;
+    margin: 10px 0;
+}
